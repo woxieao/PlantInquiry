@@ -1,4 +1,3 @@
-C:\Data\Project\PlantInquiry\PlantInquiry\obj\Debug\PlantInquiry.csprojResolveAssemblyReference.cache
 C:\Data\Project\PlantInquiry\PlantInquiry\obj\Debug\PlantInquiry.csproj.CoreCompileInputs.cache
 C:\Data\Project\PlantInquiry\PlantInquiry\bin\ApplicationInsights.config
 C:\Data\Project\PlantInquiry\PlantInquiry\bin\roslyn\csc.exe
@@ -74,3 +73,4 @@ C:\Data\Project\PlantInquiry\PlantInquiry\obj\Debug\PlantInquiry.dll
 C:\Data\Project\PlantInquiry\PlantInquiry\obj\Debug\PlantInquiry.pdb
 C:\Data\Project\PlantInquiry\PlantInquiry\bin\XASoft.EfHelper.dll
 C:\Data\Project\PlantInquiry\PlantInquiry\bin\XASoft.Extensions.dll
+C:\Data\Project\PlantInquiry\PlantInquiry\obj\Debug\PlantInquiry.csprojResolveAssemblyReference.cache

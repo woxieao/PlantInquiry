@@ -6,8 +6,12 @@ namespace PlantInquiry.Controllers
 {
     public class HomeController : BaseApiController
     {
-    
+        
         public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult SearchResult()
         {
             return View();
         }
@@ -18,6 +22,10 @@ namespace PlantInquiry.Controllers
 
             return View();
         }
+        public ActionResult Test()
+        {
+            return View();
+        }
 
         public ActionResult Contact()
         {
@@ -26,6 +34,6 @@ namespace PlantInquiry.Controllers
             return View();
         }
 
-        
+
     }
 }

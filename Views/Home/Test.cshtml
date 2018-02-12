@@ -1,0 +1,89 @@
+﻿@*<div class="row">
+    <div ng-controller="Test" class="col-md-12">
+        <input class="form-control" ng-model="Keyword" maxlength="20" />
+        <button class="btn btn-success" ng-click="Search(1)">Search</button>
+        
+        <table style="word-break:break-all;" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <td class="col-md-1">病症名称</td>
+                    <td class="col-md-4">病症详情</td>
+                    <td class="col-md-4">解决方案</td>
+                    <td class="col-md-1">病患植物</td>
+                    <td class="col-md-1">病症类别</td>
+                    <td class="col-md-1">匹配度</td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="vega in VegaList">
+                <td ng-bind-html="vega.Problem.ProblemName| sce"></td>
+                <td ng-bind-html="vega.Problem.ProblemDes| sce"></td>
+                <td ng-bind-html="vega.Problem.ProblemSol| sce"></td>
+                <td ng-bind-html="vega.Problem.ProblemVega| sce"></td>
+                <td ng-bind-html="vega.Problem.ProblemType| sce"></td>
+                <td>{{vega.PriorityPercent}}</td>
+            </tr>
+            <tr ng-show="VegaList.length===0">
+                <td colspan="6">
+                    <h3>暂无匹配项</h3>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" style="text-align: right">
+                        匹配项:{{TotalCount}}
+                        <select ng-model="PageIndex" ng-init="PageIndex='1'" ng-change="Search(PageIndex)">
+                            <option ng-repeat="page in PageList" value="{{page}}">{{page}}</option>
+                        </select> 页
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<script>
+    var app = angular.module('app', []);
+    app.filter('sce', ['$sce', function ($sce) {
+        return $sce.trustAsHtml;
+    }]);
+    app.controller('Test',
+        function ($scope, $sce) {
+            $scope.VegaList = [];
+            $scope.PageIndex = 1;
+            $scope.TotalCount = 0;
+            $scope.PageList = [1];
+            function replace(vega, keyName) {
+                for (var x in vega[keyName + "Spans"]) {
+                    var keyword = vega[keyName + "Spans"][x];
+                    vega.Problem[keyName] = vega.Problem[keyName].replace(new RegExp(keyword, "g"), "<strong style='color:orange'>" + keyword + "</strong>");
+                }
+                vega.Problem[keyName] = vega.Problem[keyName].replace(new RegExp("\\\\r\\\\n", "g"), "<br>");
+            }
+            $scope.Search = function (pageIndex) {
+                $scope.PageIndex = pageIndex;
+                commonFunc.Ajax({
+                    url: "/api/GetProblemList",
+                    data: { Keyword: $scope.Keyword, PageIndex: $scope.PageIndex },
+                    success: function (r) {
+                        $scope.VegaList = r.List;
+                        $scope.PageList = [];
+                        $scope.TotalCount = r.TotalCount;
+                        for (var i = 1; i <= r.TotalPage; i++) {
+                            $scope.PageList.push(i);
+                        }
+
+                        for (var i in $scope.VegaList) {
+                            replace($scope.VegaList[i], "ProblemType");
+                            replace($scope.VegaList[i], "ProblemVega");
+                            replace($scope.VegaList[i], "ProblemSol");
+                            replace($scope.VegaList[i], "ProblemDes");
+                            replace($scope.VegaList[i], "ProblemName");
+                        }
+                    }
+                }, $scope);
+            }
+            $scope.Search(1);
+        });
+
+</script>*@
