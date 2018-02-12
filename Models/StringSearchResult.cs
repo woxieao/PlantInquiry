@@ -38,7 +38,6 @@ namespace PlantInquiry.Models
             {
                 foreach (var ch in keyword)
                 {
-
                     hashSet.Add(ch);
                 }
             }

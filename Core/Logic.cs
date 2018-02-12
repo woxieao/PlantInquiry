@@ -33,16 +33,7 @@ namespace PlantInquiry.Core
         {
             if (!string.IsNullOrEmpty(keyword))
             {
-                var str = new StringBuilder();
-                foreach (var c in keyword)
-                {
-                    if (c >= 19968 && c <= 40869)
-                    {
-                        str.Append(c);
-                    }
-                }
                 keyword = Regex.Replace(keyword, "[^\u4e00-\u9fa5]", string.Empty);
-
                 Func<string, int, HashSet<string>> cutStr = (s2Add, cutLen) =>
                  {
                      var wordList = new HashSet<string>();

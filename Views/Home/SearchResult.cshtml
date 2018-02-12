@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="input-group">
                     <div>
-                        <input ng-model="Keyword" maxlength="20" type="search" class="form-control " placeholder="输入您植物的病症特性，系统智能识别">
+                        <input ng-model="Keyword" maxlength="@Configs.MatchWordMaxLength" type="search" class="form-control " placeholder="输入您植物的病症特性，系统智能识别">
                     </div>
                     <span class="input-group-btn">
                         <button class="btn btn-primary" ng-click="Search(1)" type="button">搜索</button>
@@ -33,11 +33,11 @@
         </thead>
         <tbody>
             <tr ng-repeat="vega in VegaList">
-                <td ng-bind-html="vega.Problem.ProblemName| sce"></td>
-                <td ng-bind-html="vega.Problem.ProblemDes| sce"></td>
-                <td ng-bind-html="vega.Problem.ProblemSol| sce"></td>
-                <td ng-bind-html="vega.Problem.ProblemVega| sce"></td>
-                <td ng-bind-html="vega.Problem.ProblemType| sce"></td>
+                <td> <div ng-bind-html="vega.Problem.ProblemName| sce"></div></td>
+                <td><div ng-bind-html="vega.Problem.ProblemDes| sce"></div><img style="width: 100%;max-height:150px" ng-src="{{src}}" ng-repeat="src in vega.Problem.ImgList.split('|')" /></td>
+                <td><div ng-bind-html="vega.Problem.ProblemSol| sce"></div></td>
+                <td><div ng-bind-html="vega.Problem.ProblemVega| sce"></div></td>
+                <td><div ng-bind-html="vega.Problem.ProblemType| sce"></div></td>
                 <td>{{vega.PriorityPercent}}</td>
             </tr>
             <tr ng-show="VegaList.length===0">

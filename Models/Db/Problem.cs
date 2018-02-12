@@ -28,6 +28,9 @@ namespace PlantInquiry.Models.Db
         [Required]
         [StringLength(255)]
         public string ProblemType { get; set; }
-        
+
+        [StringLength(4000)]
+        public string ImgList { get; set; }
+
     }
 }
