@@ -169,8 +169,11 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Dal\UserDal.cs" />
+    <Compile Include="Dal\BannerDal.cs" />
     <Compile Include="Dal\ProblemDal.cs" />
     <Compile Include="Models\Db\DataBase.cs" />
+    <Compile Include="Models\Db\Banner.cs" />
     <Compile Include="Models\StringSearchResult.cs" />
     <Compile Include="Models\Db\Element.cs" />
     <Compile Include="Global.asax.cs">
@@ -182,6 +185,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\time.jpg" />
     <Content Include="ProblemImgs\image001.jpg" />
     <Content Include="ProblemImgs\image002.jpg" />
     <Content Include="ProblemImgs\image003.jpg" />
@@ -276,6 +280,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Home\SearchResult.cshtml" />
+    <Content Include="Views\Home\Main.cshtml" />
+    <Content Include="Views\Home\Detail.cshtml" />
+    <Content Include="Views\Home\Chat_.cshtml" />
+    <Content Include="Views\Home\ProfessorChat_.cshtml" />
+    <Content Include="Views\Home\ManageVega_.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

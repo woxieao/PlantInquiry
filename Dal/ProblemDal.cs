@@ -14,16 +14,7 @@ namespace PlantInquiry.Dal
         }
         public List<Problem> GetProblemList()
         {
-            return new ProblemDal().Where(i => !i.DelFlag).ToList();
-            //    .Select(i => new Problem
-            //{
-            //    ProblemDes = i.ProblemDes.RemoveNewLine(),
-            //    ProblemName = i.ProblemName.RemoveNewLine(),
-            //    ProblemType = i.ProblemType.RemoveNewLine(),
-            //    ProblemSol = i.ProblemSol.RemoveNewLine(),
-            //    ProblemVega = i.ProblemVega.RemoveNewLine(),
-            //    Id = i.Id
-            //}).ToList();
+            return this.Where(i => !i.DelFlag).ToList();
         }
     }
 }

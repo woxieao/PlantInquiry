@@ -1,70 +1,72 @@
-﻿<div ng-controller="SearchResult" class=container-fixed>
-    <div class="row" style="height: 50px;">
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h4>搜索结果:</h4>
+﻿@using Newtonsoft.Json
+@model  string[]
+    <div ng-controller="SearchResult" class=container-fixed>
+        <div class="row" style="height: 50px;">
         </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="input-group">
-                    <div>
-                        <input ng-model="Keyword" maxlength="@Configs.MatchWordMaxLength" type="search" class="form-control " placeholder="输入您植物的病症特性，系统智能识别">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>搜索结果:</h4>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="input-group">
+                        <div>
+                            <input ng-model="Keyword" maxlength="@Configs.MatchWordMaxLength" type="search" class="form-control " placeholder="输入您植物的病症特性，系统智能识别">
+                        </div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" ng-click="Search(1)" type="button">搜索</button>
+                        </span>
                     </div>
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" ng-click="Search(1)" type="button">搜索</button>
-                    </span>
                 </div>
             </div>
+            <div class="col-md-4"></div>
         </div>
-        <div class="col-md-4"></div>
+        <hr>
+        <table style="word-break:break-all;" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <td class="col-md-1">病症名称</td>
+                    <td class="col-md-4">病症详情</td>
+                    <td class="col-md-4">解决方案</td>
+                    <td class="col-md-1">病患植物</td>
+                    <td class="col-md-1">病症类别</td>
+                    <td class="col-md-1">匹配度</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vega in VegaList">
+                    <td>
+                        <a href="/Home/Detail?id={{vega.Problem.Id}}">{{vega.Problem.ProblemName}}</a>
+                    </td>
+                    <td><div ng-bind-html="vega.Problem.ProblemDes| sce"></div><img style="width: 100%;max-height:150px" ng-src="{{src}}" ng-repeat="src in vega.Problem.ImgList.split('|')" /></td>
+                    <td><div ng-bind-html="vega.Problem.ProblemSol| sce"></div></td>
+                    <td><div ng-bind-html="vega.Problem.ProblemVega| sce"></div></td>
+                    <td><div ng-bind-html="vega.Problem.ProblemType| sce"></div></td>
+                    <td>{{vega.PriorityPercent}}</td>
+                </tr>
+                <tr ng-show="VegaList.length===0">
+                    <td style="text-align: center" colspan="6">
+                        <h3>暂无匹配项</h3>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" style="text-align: right">
+                        <h4 style="float: left"> 匹配项:{{TotalCount}}</h4>
+                        <select ng-model="PageIndex" class="form-control" style="width: 50px; float: right" ng-options="page for page in PageList" ng-change="Search(PageIndex)"></select>
+                        <h4>页 &nbsp;</h4>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
-    <hr>
-    <table style="word-break:break-all;" class="table table-bordered table-hover table-striped">
-        <thead>
-            <tr>
-                <td class="col-md-1">病症名称</td>
-                <td class="col-md-4">病症详情</td>
-                <td class="col-md-4">解决方案</td>
-                <td class="col-md-1">病患植物</td>
-                <td class="col-md-1">病症类别</td>
-                <td class="col-md-1">匹配度</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="vega in VegaList">
-                <td> <div ng-bind-html="vega.Problem.ProblemName| sce"></div></td>
-                <td><div ng-bind-html="vega.Problem.ProblemDes| sce"></div><img style="width: 100%;max-height:150px" ng-src="{{src}}" ng-repeat="src in vega.Problem.ImgList.split('|')" /></td>
-                <td><div ng-bind-html="vega.Problem.ProblemSol| sce"></div></td>
-                <td><div ng-bind-html="vega.Problem.ProblemVega| sce"></div></td>
-                <td><div ng-bind-html="vega.Problem.ProblemType| sce"></div></td>
-                <td>{{vega.PriorityPercent}}</td>
-            </tr>
-            <tr ng-show="VegaList.length===0">
-                <td style="text-align: center" colspan="6">
-                    <h3>暂无匹配项</h3>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="6" style="text-align: right">
-                    <h4 style="float: left"> 匹配项:{{TotalCount}}</h4>
-                    <select ng-model="PageIndex" class="form-control" style="width: 50px; float: right" ng-options="page for page in PageList" ng-change="Search(PageIndex)"></select>
-                    <h4>页 &nbsp;</h4>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-<script>
-    var app = angular.module('app', []);
-    app.filter('sce', ['$sce', function ($sce) {
-        return $sce.trustAsHtml;
-    }]);
+    <script>
+
     app.controller('SearchResult',
         function ($scope, $sce) {
             $scope.VegaList = [];
+            $scope.Keyword= @Html.Raw(JsonConvert.SerializeObject(Model[0]));
             $scope.PageIndex = 1;
             $scope.TotalCount = 0;
             $scope.PageList = [1];
@@ -100,4 +102,4 @@
             $scope.Search(1);
         });
 
-</script>
+    </script>

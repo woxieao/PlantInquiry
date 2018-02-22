@@ -1,0 +1,83 @@
+﻿<div ng-controller="Main" class=container-fixed>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators">
+            <li ng-repeat="item in BannerList" data-target="#myCarousel" data-slide-to="{{$index}}" ng-class="{active:!$index}"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div ng-repeat="item in BannerList" class="item" ng-class="{active:!$index}">
+                <img style="width: 100%;height: 480px;" ng-src="{{item.ImgUrl}}" alt="{{item.Title}}">
+                <div class="carousel-caption">{{item.Title}}</div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+    <div class="container-fixed">
+        <div class="row" style="height: 50px;">
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="input-group">
+                        <div >
+                            <input ng-model="Keyword" type="search" class="form-control " placeholder="输入您植物的病症特性，系统智能识别">
+                        </div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" ng-click="GoSearchPage(Keyword)">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row" style="height: 50px;">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="items">
+                    <div class="item">
+                        <div class="item-heading">
+                            <h4><a href="javascript:void(0)">常见症状</a></h4>
+                        </div>
+                        <div class="item-content" ng-repeat="item in ProblemList">
+                            <div style="width:100%;overflow:hidden; white-space:nowrap;text-overflow:ellipsis">
+                                <a href="/Home/Detail?id={{item.Problem.Id}}">{{item.Problem.ProblemName}}</a>
+                                &nbsp;&nbsp;&nbsp; <strong> {{item.Problem.ProblemDes}}</strong>
+                                @*<span class="text-muted">{{item.Problem.CreateDate}}</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    app.controller('Main',
+        function ($scope, $sce) {
+            $scope.BannerList = [];
+            $scope.ProblemList = [];
+            commonFunc.Ajax({
+                url: "/api/GetBannerList",
+                success: function (r) {
+                    $scope.BannerList = r;
+                }
+            }, $scope);
+            commonFunc.Ajax({
+                url: "/api/GetProblemList",
+                data: { pageSize: 5 },
+                success: function (r) {
+                    $scope.ProblemList = r.List;
+                }
+            }, $scope);
+            $scope.GoSearchPage = function (keyword) {
+                location.href = "/Home/SearchResult?keyword=" + keyword;
+            }
+        });
+</script>

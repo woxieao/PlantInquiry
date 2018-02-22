@@ -14,6 +14,7 @@ namespace PlantInquiry.Models.Db
         public virtual DbSet<MsgLog> MsgLog { get; set; }
         public virtual DbSet<Problem> Problem { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Banner> Banner { get; set; }
 
     }
 }
